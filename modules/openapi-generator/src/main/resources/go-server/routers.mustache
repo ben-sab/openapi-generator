@@ -103,6 +103,9 @@ func EncodeJSONResponse(i interface{}, status *int,{{#addResponseHeaders}} heade
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	{{/addResponseHeader}}
 	if status != nil {
+		if *status == 307 {
+			w.Header().Add("Location", i.(string))
+	  	}
 		w.WriteHeader(*status)
 	} else {
 		w.WriteHeader(http.StatusOK)
